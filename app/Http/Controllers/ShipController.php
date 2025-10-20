@@ -12,14 +12,12 @@ class ShipController extends Controller
         $name_ship= $request->input('name_ship');
         $tripulation=$request->input('tripulation');
         
-        $passangers=$request->input('passangers');
+        $passengers=$request->input('passangers');
         if($request->has('model')){
             $model=$request->input('model');
         }
         if($request->has('class')){
             $class= $request->input('class');
-        }
-        
-
+        }      
     }
 }

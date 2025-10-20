@@ -23,10 +23,6 @@ class ShipMiddleware
                 "mensaje"=>"Faltan datos para subir una nave"
             ], 401);
         }
-        
-
-        
-
 
     }
 }

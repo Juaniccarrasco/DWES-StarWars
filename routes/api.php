@@ -25,8 +25,8 @@ Route::prefix('admin')
 Route::prefix('ship')
     //->middleware('adminMid')
     ->group(function(){
-        Route::get('/get', [ShipController::class, 'getShips']);
-        Route::get('/get/{id}', [ShipController::class, 'getShips'])->whereNumber('id');
-        Route::post('post',ShipController::class, 'post')->middleware('shipMid');
+        // Route::get('/get', [ShipController::class, 'getShips']);
+        // Route::get('/get/{id}', [ShipController::class, 'getShips'])->whereNumber('id');
+        // Route::post('post',ShipController::class, 'post')->middleware('shipMid');
 
     });
