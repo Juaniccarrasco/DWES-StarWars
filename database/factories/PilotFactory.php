@@ -20,9 +20,8 @@ class PilotFactory extends Factory
         return [
             'name_pilot' => $this->faker->name(),
             'height' => $this->faker->numberBetween(150,300),
-            'birth_year' => $this->faker->numberBetween(-150,0),
-            'gender' => $this->faker->randomElement(["Wookiee",
-                                                    "Togruta",
+            'birth_year' => $this->faker->date(),
+            'gender' => $this->faker->randomElement(["Togruta",
                                                     "Twi'lek",
                                                     "Chiss",
                                                     "Zabrak",

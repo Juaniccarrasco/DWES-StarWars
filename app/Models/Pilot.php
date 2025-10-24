@@ -2,17 +2,22 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Pilot extends Model
 {
+    use HasFactory;
+
     protected $primaryKey = 'id_pilot';
     protected $fillable = ['name_pilot', 'height', 'birth_year', 'gender'];
+    public $timestamps= false;
     
-    function pilotOfShips(){
-        return $this->belongsToMany(Ship::class, 'id_ship', 'id_ship')
+    function ships(){
+        return $this->belongsToMany(Ship::class, 'ship_pilots', 'id_pilot', 'id_ship')
         ->using(Ship_Pilot::class)
-        ->withPivot('associated','unassigned','reassigned')
-        ->withTimestamps();
+        ->withPivot('assigned','unassigned')
+        ->withTimestamps()
+        ->wherePivot('unassigned', null);
     }
 }

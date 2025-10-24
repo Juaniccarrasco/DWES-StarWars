@@ -3,6 +3,7 @@
 use App\Http\Controllers\manteinanceController;
 use App\Http\Controllers\pilotController;
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\arrayPilotsMiddleware;
 use App\Http\Middleware\ManteinanceMiddleware;
 use App\Http\Middleware\PilotMiddleware;
 use App\Http\Middleware\PlanetMiddleware;
@@ -26,7 +27,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'planetMid' => PlanetMiddleware::class,
             'shipMid' => ShipMiddleware::class,
             'adminMid' => AdminMiddleware::class,
-            'userMid' => UserMiddleware::class
+            'userMid' => UserMiddleware::class,
+            'arrayPilots' => arrayPilotsMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

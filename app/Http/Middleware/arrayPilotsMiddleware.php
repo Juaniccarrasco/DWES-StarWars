@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ShipMiddleware
+class arrayPilotsMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,15 +15,9 @@ class ShipMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        //abort_if
-        if($request->has(['name_ship','tripulation','passengers', 'model', 'class'])){
-            return $next($request);
-
-        }else{
-            return response()->json([
-                "mensaje"=>"Faltan campos para actualizar una nave"
-            ], 401);
+        if(!$request->has(['id_ship','id_pilots'])){
+            return response()->json(["Error"=> "faltan parámetros"],400);
         }
-
+        return $next($request);
     }
 }

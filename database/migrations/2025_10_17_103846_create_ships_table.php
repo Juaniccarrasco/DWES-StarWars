@@ -18,6 +18,11 @@ return new class extends Migration
             $table->string('class');
             $table->integer('tripulation');
             $table->integer('passengers');
+            $table->unsignedBigInteger('id_planet')->nullable();
+            $table->foreign('id_planet')
+                ->references('id_planet')
+                ->on('planets')
+                ->onDelete('cascade');
         });
     }
 

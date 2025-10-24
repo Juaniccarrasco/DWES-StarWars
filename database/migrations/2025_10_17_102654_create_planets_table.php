@@ -16,13 +16,8 @@ return new class extends Migration
             $table->primary('id_planet');
             $table->string('name_planet');
             $table->integer('population');
-            $table->integer('climate');
+            $table->string('climate');
             $table->integer('rotation_period');
-            $table->unsignedBigInteger('id_ship');
-            $table->foreign('id_ship')
-                ->references('id_ship')
-                ->on('ships')
-                ->onDelete('cascade');
         });
     }
 

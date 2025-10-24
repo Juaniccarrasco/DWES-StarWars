@@ -24,12 +24,11 @@ return new class extends Migration
                 ->references('id_pilot')
                 ->on('pilots')
                 ->onDelete('cascade');
-            $table->timestamps();
-            $table->boolean('associated')->default(true);
-            // Obtenemos el timestamp actualizado como string
-            // $timestamp = Carbon::parse($registro->updated_at)->toDateTimeString();
-            $table->string('unassigned')->nullable();
-            $table->string('reassigned')->nullable();
+                // Obtenemos el timestamp actualizado como string
+                // $timestamp = Carbon::parse($registro->updated_at)->toDateTimeString();
+                $table->date('assigned')->nullable();
+                $table->date('unassigned')->nullable();
+                $table->timestamps();
         });
     }
 

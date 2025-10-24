@@ -16,8 +16,7 @@ return new class extends Migration
             $table->string('name_pilot');
             $table->integer('height')->nullable/*->change()*/; //Para lanzar una migracion de nuevo y que se cambie
             $table->date('birth_year')->nullable;
-            $table->integer('gender')->nullable;
-            $table->unsignedBigInteger('id_ship');
+            $table->string('gender')->nullable;
         });
     }
 
