@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -42,19 +44,5 @@ class UserFactory extends Factory
         ]);
     }
 
-    public function configure(): static
-    {
-        return $this
-        ->afterCreating(function ($user) {
-            $role = rand(0,2);
-            $pilots = Pilot::inRandomOrder()->take($pilotOwners)->get();
-
-            foreach ($pilots as $pilot) {
-                $ship->pilots()->attach($pilot->id_pilot,[
-                    'assigned' => now(),
-                    'unassigned' =>null
-                ]);
-            }
-        })
-    }
+    
 }

@@ -48,10 +48,12 @@ class User extends Authenticatable
         ];
     }
 
-    function role(){
-        return $this->hasOne(Role::class, 'id_role')
-        ->withPivot();
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_user', 'id_user', 'id_role')
+                    ->using(User_Role::class);
     }
+
 
     function ships(){
         return $this->belongsToMany(Ship::class, 'ship_pilots', 'id_pilot', 'id_ship')

@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
             PilotSeeder::class,
             PlanetSeeder::class,
             ShipSeeder::class,
+            //UserSeeder::class,
+            RoleSeeder::class
         ]);
     }
 }
