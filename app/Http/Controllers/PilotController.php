@@ -8,6 +8,7 @@ use App\Models\Ship_Pilot;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class PilotController extends Controller
 {
@@ -29,13 +30,14 @@ class PilotController extends Controller
             
             $exists = Ship_Pilot::where('id_pilot',$idPilot)
             ->where('id_ship',$idShip)
+            ->whereNull('unassigned')
             ->exists();
-
+            
             //if($ship_pilot){
             if($exists){
                 throw new Exception("Nave ya asignada a ese piloto",409);
             }
-
+            
             $ship->pilots()->attach($pilot->id_pilot,[
                 'assigned' =>now(),
                 'unassigned' => null
@@ -43,7 +45,72 @@ class PilotController extends Controller
 
             return response()-> json(["message"=> "Piloto asignado",
                                     "id_pilot"=>$pilot->id_pilot,
-                                    "id_ship"=>$ship->id_ship],200);
+                                    "id_ship"=>$ship->id_ship],201);
+
+        }catch (Exception $e){
+            return response()->json(["Error"=> $e->getMessage()], $e->getCode());
+        }
+    }
+
+    public function unassignPilot(Request $request, $idPilot, $idShip){
+        try{
+
+            // $validator = Validator::make($request->all(),[
+            //     'idPilot' => 'required|integer|exists:pilotos,id'
+            // ]);
+
+            $validator = $validator = Validator::make(
+                ['idPilot' => $idPilot],
+                ['idPilot' => 'required|integer|exists:pilots,id_pilot']
+            );
+
+            if ($validator->fails()) {
+                return response()->json(['success' => false, 'errors' => $validator->errors()],400);
+            }
+
+            $ship = Ship::find($idShip);
+            if(!$ship){
+                throw new Exception("Nave no encontrada",404);
+                // return response()-> json($ships,200);
+            }
+            $pilot = Pilot::find($idPilot);
+            if(!$pilot){
+                throw new Exception("Piloto no encontrado",404);
+            }
+            // $ship_pilot = Ship_Pilot::where('id_pilot',$idPilot)
+            // ->where('id_ship',$idShip)
+            // ->first();
+            
+            // $exists = Ship_Pilot::where('id_pilot',$idPilot)
+            // ->where('id_ship',$idShip)
+            // ->exists();
+
+            $ship = Ship_Pilot::where('id_pilot',$idPilot)
+            ->where('id_ship',$idShip)
+            ->whereNull('unassigned')
+            ->first();
+
+            //if($ship_pilot){
+            if(!$ship){
+                throw new Exception("Esta nave no está asignada a ese piloto",409);
+            }
+
+            // $ship->pilots()->detach([
+            //     $idPilot => ['id_ship' => $idShip]
+            // ]);
+            // $ship->unassignedPilots()->updateExistingPivot((int)$idPilot, [
+            //     'unassigned' => now()
+            // ]);
+
+            echo('aqui');
+
+            $pilot->ships()->updateExistingPivot($idShip,[
+                'unassigned'=> now()
+            ]);
+
+            return response()-> json(["message"=> "Piloto desasignado",
+                                    "id_pilot"=>$pilot->id_pilot,
+                                    "id_ship"=>$ship->id_ship],201);
 
         }catch (Exception $e){
             return response()->json(["Error"=> $e->getMessage()], $e->getCode());
@@ -89,6 +156,29 @@ class PilotController extends Controller
 
         }catch (Exception $e){
             return response()->json(["Error"=> $e->getMessage()], $e->getCode());
+        }
+    }
+
+    public function historyPilotsAssigned(){
+        $assignedPilots= Pilot::has('ships')->get();
+        if($assignedPilots){
+            return response()->json(['message' => $assignedPilots], 200);
+        }else{
+            return response()->json(['message' => 'Pilotos no encontrados.'], 404);
+        }
+    }
+
+    public function listPilotsAssigned(){
+        $assignedPilots= Pilot::has('assignedShips')->get();
+        if($assignedPilots){
+            $ships= Ship::has('pilots')->get();
+            if(!$ships){
+                return response()->json(['message' => 'Nave no encontrada.'], 404);
+            }
+            return response()->json(['pilots' => $assignedPilots,
+                                    'ships'=>$ships], 200);
+        }else{
+            return response()->json(['message' => 'Pilotos no encontrados.'], 404);
         }
     }
 }

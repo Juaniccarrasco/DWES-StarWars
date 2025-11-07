@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('ship_pilots', function (Blueprint $table) {
-            $table->primary(['id_ship','id_pilot']);
-            $table->unique(['id_ship','id_pilot']);
+            $table->primary(['id_ship','id_pilot','assigned']);
+            $table->unique(['id_ship','id_pilot','assigned']);
             $table->unsignedBigInteger('id_ship');
             $table->foreign('id_ship')
                 ->references('id_ship')
@@ -26,8 +26,8 @@ return new class extends Migration
                 ->onDelete('cascade');
                 // Obtenemos el timestamp actualizado como string
                 // $timestamp = Carbon::parse($registro->updated_at)->toDateTimeString();
-                $table->date('assigned')->nullable();
-                $table->date('unassigned')->nullable();
+                $table->timestamp('assigned', 3);
+                $table->timestamp('unassigned',3)->nullable();
                 $table->timestamps();
         });
     }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Manteinance extends Model
 {
-    
-    protected $primaryKey = 'id_manteinance';
-    protected $fillable = ['id_ship', 'date_manteinance', 'description', 'cost'];
+    public $timestamps = false;
+    protected $primaryKey = 'id_maintenance';
+    protected $fillable = ['id_ship', 'description', 'cost', 'date'];
 }

@@ -39,12 +39,30 @@ class Ship extends Model
     //     'related_key'            // 4. Clave foránea del modelo relacionado
     //     return $this->belongsToMany(Ship::class, 'ship_pilots', 'id_pilot', 'id_ship');
     
+    // function assignedPilots(){
+    //     return $this->belongsToMany(Pilot::class, 'ship_pilots', 'id_ship', 'id_pilot')
+    //     ->using(Ship_Pilot::class)
+    //     ->withPivot('assigned','unassigned')
+    //     ->withTimestamps()
+    //     ->wherePivotNotNull('assigned');   
+    // }
+
     function pilots(){
         return $this->belongsToMany(Pilot::class, 'ship_pilots', 'id_ship', 'id_pilot')
         ->using(Ship_Pilot::class)
         ->withPivot('assigned','unassigned')
-        ->withTimestamps()
-        ->wherePivotNotNull('assigned');   
+        ->withTimestamps();  
     }
+
+    // function unassignedPilots(){
+    //     return $this->belongsToMany(Pilot::class, 'ship_pilots', 'id_ship', 'id_pilot')
+    //     ->using(Ship_Pilot::class)
+    //     ->withPivot('assigned','unassigned')
+    //     ->withTimestamps()
+    //     ->wherePivotNotNull('assigned')
+    //     ->wherePivotNull('unassigned');   
+    // }
+
+    
     
 }

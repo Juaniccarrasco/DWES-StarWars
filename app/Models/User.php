@@ -20,7 +20,9 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'email_verified_at',
         'password',
+        'remember_token'
     ];
 
     /**
@@ -45,4 +47,21 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    function role(){
+        return $this->hasOne(Role::class, 'id_role')
+        ->withPivot();
+    }
+
+    function ships(){
+        return $this->belongsToMany(Ship::class, 'ship_pilots', 'id_pilot', 'id_ship')
+        ->using(Ship_Pilot::class)
+        ->withPivot('assigned','unassigned')
+        ->withTimestamps();
+        //Para mostrar el histórico comentamos la siguiente linea, 
+            //si quisieramos los actualmente asignados la descomentariamos:
+        //->wherePivot('unassigned', null);
+    }
+
+
 }

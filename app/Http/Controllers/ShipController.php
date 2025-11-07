@@ -89,4 +89,13 @@ class ShipController extends Controller
             return response()->json(['message' => 'Nave no encontrada.'], 404);
         }
     }
+
+    public function listWithoutPilot(Request $request){
+        $noPilotsList= Ship::doesntHave('pilots')->get();
+        if($noPilotsList){
+            return response()->json(['message' => $noPilotsList], 200);
+        }else{
+            return response()->json(['message' => 'Nave no encontrada.'], 404);
+        }
+    }
 }

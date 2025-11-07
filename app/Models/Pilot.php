@@ -17,6 +17,16 @@ class Pilot extends Model
         return $this->belongsToMany(Ship::class, 'ship_pilots', 'id_pilot', 'id_ship')
         ->using(Ship_Pilot::class)
         ->withPivot('assigned','unassigned')
+        ->withTimestamps();
+        //Para mostrar el histórico comentamos la siguiente linea, 
+            //si quisieramos los actualmente asignados la descomentariamos:
+        //->wherePivot('unassigned', null);
+    }
+
+    function assignedShips(){
+        return $this->belongsToMany(Ship::class, 'ship_pilots', 'id_pilot', 'id_ship')
+        ->using(Ship_Pilot::class)
+        ->withPivot('assigned','unassigned')
         ->withTimestamps()
         ->wherePivot('unassigned', null);
     }

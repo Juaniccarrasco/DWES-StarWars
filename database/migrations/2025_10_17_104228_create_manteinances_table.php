@@ -19,9 +19,12 @@ return new class extends Migration
                 ->references('id_ship')
                 ->on('ships')
                 ->onDelete('cascade');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->integer('cost');
-            $table->timestamp('created_at')/*->nullable*/;
+            $table->date('date');
+            //esto genera un fallo, porque al crear una espera de la otra (updated_at)
+            //y solo se ve si 'error' => $e->getMessage() en el catch
+            //$table->timestamp('created_at')/*->nullable*/;
         });
     }
 

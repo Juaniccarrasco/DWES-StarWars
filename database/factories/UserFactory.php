@@ -41,4 +41,20 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    public function configure(): static
+    {
+        return $this
+        ->afterCreating(function ($user) {
+            $role = rand(0,2);
+            $pilots = Pilot::inRandomOrder()->take($pilotOwners)->get();
+
+            foreach ($pilots as $pilot) {
+                $ship->pilots()->attach($pilot->id_pilot,[
+                    'assigned' => now(),
+                    'unassigned' =>null
+                ]);
+            }
+        })
+    }
 }
